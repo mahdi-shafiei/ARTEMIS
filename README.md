@@ -17,4 +17,4 @@ Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu machines. Required
 - OTT
 
 ## Usage
-Tutorial notebooks to train model and downstream analyses are in [ARTEMIS/notebooks]{https://github.com/sayali7/ARTEMIS/tree/main/notebooks}.
+Tutorial notebooks to train model and downstream analyses are in [ARTEMIS/notebooks](https://github.com/sayali7/ARTEMIS/tree/main/notebooks).
