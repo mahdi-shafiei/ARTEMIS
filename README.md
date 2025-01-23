@@ -19,7 +19,7 @@ Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu, both on machines 
 ## Data
 1. The pancreatic data, can be downloaded from GEO [GSE114412](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114412) [1].
 2. The raw zebrafish data can be downloaded from \url{https://figshare.com/articles/dataset/Raw_and_processed_data_of_three_scRNA-seq_datasets_/25601610/1?file=45647244}\cite{zhang2024scnode}. It can also be downloaded from [Broad Single Cell Portal](https://singlecell.broadinstitute.org/single_cell/study/SCP162/single-cell-reconstruction-of-developmental-trajectories-during-zebrafish-embryogenesis) with identifier SCP126 [2].
-3. The TGFB1-induced EMT from A549 lung cancer cell data can be downloaded from \href{https://github.com/dpcook/emt_dynamics} [3].
+3. The TGFB1-induced EMT from A549 lung cancer cell data can be downloaded from [https://github.com/dpcook/emt_dynamics](https://github.com/dpcook/emt_dynamics) [3].
 
 ## Usage
 Tutorial notebooks to train model and downstream analyses are in [ARTEMIS/notebooks](https://github.com/sayali7/ARTEMIS/tree/main/notebooks).
