@@ -6,3 +6,15 @@ To address this challenge, we propose ARTEMIS, a generative model integrating a 
 
 ![alt text](https://github.com/sayali7/ARTEMIS/blob/main/paper_figures/Figure1.png?raw=true)
 
+## Requirements
+Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu machines. Required packages are:
+- JAX
+- Haiku
+- Optax
+- Pandas
+- Numpy
+- Scipy
+- OTT
+
+## Usage
+Tutorial notebooks to train model and downstream analyses are in \href{https://github.com/sayali7/ARTEMIS/tree/main/notebooks}{ARTEMIS/notebooks}.
