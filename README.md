@@ -18,7 +18,7 @@ Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu, both on machines 
 
 ## Data
 1. The pancreatic data, can be downloaded from GEO [GSE114412](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114412) [1].
-2. The raw zebrafish data can be downloaded from [https://figshare.com/articles/dataset/Raw_and_processed_data_of_three_scRNA-seq_datasets_/25601610/1?file=45647244](https://figshare.com/articles/dataset/Raw_and_processed_data_of_three_scRNA-seq_datasets_/25601610/1?file=45647244) \cite{zhang2024scnode}. It can also be downloaded from [Broad Single Cell Portal](https://singlecell.broadinstitute.org/single_cell/study/SCP162/single-cell-reconstruction-of-developmental-trajectories-during-zebrafish-embryogenesis) with identifier SCP126 [2].
+2. The raw zebrafish data can be downloaded from [https://figshare.com/articles/dataset/Raw_and_processed_data_of_three_scRNA-seq_datasets_/25601610/1?file=45647244](https://figshare.com/articles/dataset/Raw_and_processed_data_of_three_scRNA-seq_datasets_/25601610/1?file=45647244) [4]. It can also be downloaded from [Broad Single Cell Portal](https://singlecell.broadinstitute.org/single_cell/study/SCP162/single-cell-reconstruction-of-developmental-trajectories-during-zebrafish-embryogenesis) with identifier SCP126 [2].
 3. The TGFB1-induced EMT from A549 lung cancer cell data can be downloaded from [https://github.com/dpcook/emt_dynamics](https://github.com/dpcook/emt_dynamics) [3].
 
 ## Usage
@@ -43,3 +43,9 @@ trajectories during zebrafish embryogenesis. Science,
 David P Cook and Barbara C Vanderhyden. Context
 specificity of the emt transcriptional response. Nature
 communications, 11(1):2142, 2020.
+
+<a id="4">[4]</a>
+Jiaqi Zhang, Erica Larschan, Jeremy Bigness, and
+Ritambhara Singh. scnode: generative model for temporal
+single cell transcriptomic data prediction. Bioinformatics,
+40(Supplement 2):ii146–ii154, 2024
