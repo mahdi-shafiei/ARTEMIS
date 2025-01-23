@@ -7,7 +7,7 @@ To address this challenge, we propose ARTEMIS, a generative model integrating a 
 ![alt text](https://github.com/sayali7/ARTEMIS/blob/main/paper_figures/Figure1.png?raw=true)
 
 ## Requirements
-Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu machines. Required packages are:
+Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu, both on machines with CPU and with GPU NVIDIA RTX A6000. Required packages are:
 - JAX
 - Haiku
 - Optax
