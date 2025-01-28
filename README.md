@@ -9,6 +9,7 @@ To address this challenge, we propose ARTEMIS, a generative model integrating a 
 ## Requirements
 Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu (20.04,22.04), both on machines with CPU and with GPU NVIDIA RTX A6000 (recommended). Required packages are:
 - JAX
+- Flax
 - Haiku
 - Optax
 - Pandas
