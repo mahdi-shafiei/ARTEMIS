@@ -3,9 +3,6 @@ from sklearn.metrics.pairwise import rbf_kernel
 import jax
 import jax.numpy as jnp
 import ott
-import ot
-from geomloss import SamplesLoss
-import torch
 
 ## mmd distance
 def mmd_distance(x, y, gamma):
@@ -46,18 +43,6 @@ def transport(ot, init_points):
 def compute_wasserstein_2(preds, true):
     ot = compute_ot(preds, true)
     return jnp.sqrt(ot.transport_cost_at_geom(make_geometry(preds, true))).item()
-
-## wasserstein geomloss
-def compute_geomloss_wasserstein(preds, true):
-    ot_solver = SamplesLoss("sinkhorn", p=2, blur=0.05, scaling=0.5, debias=True, backend="auto")
-
-    if isinstance(true, np.ndarray):
-        true = torch.DoubleTensor(true)
-    if isinstance(preds, np.ndarray):
-        preds = torch.DoubleTensor(preds)
-    ot_loss = ot_solver(true, preds)
-    return ot_loss.item()
-
 
 def compute_metrics_subset(target, predicted):
     return {
