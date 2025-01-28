@@ -12,11 +12,8 @@ import optax
 from tqdm.auto import tqdm
 from functools import partial
 from typing import NamedTuple, List, Tuple, Callable
-import ipywidgets
 
 import copy
-from scipy import linalg
-import matplotlib as mpl
 import wandb
 
 from utils import *
