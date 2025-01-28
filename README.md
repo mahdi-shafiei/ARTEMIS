@@ -17,7 +17,7 @@ Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu (20.04,22.04), bot
 - Scipy
 - OTT
 
-All packages with version, including those used in preprocessing and analysis, can be downloaded using: [requirements.txt](https://github.com/sayali7/ARTEMIS/blob/main/requirements.txt).
+All packages with versions, including those used in preprocessing and analysis, can be downloaded using: [requirements.txt](https://github.com/sayali7/ARTEMIS/blob/main/requirements.txt).
 ## Data
 1. The pancreatic data, can be downloaded from GEO [GSE114412](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114412) [1].
 2. The raw zebrafish data can be downloaded from [https://figshare.com/articles/dataset/Raw_and_processed_data_of_three_scRNA-seq_datasets_/25601610/1?file=45647244](https://figshare.com/articles/dataset/Raw_and_processed_data_of_three_scRNA-seq_datasets_/25601610/1?file=45647244) [4]. It can also be downloaded from [Broad Single Cell Portal](https://singlecell.broadinstitute.org/single_cell/study/SCP162/single-cell-reconstruction-of-developmental-trajectories-during-zebrafish-embryogenesis) with identifier SCP126 [2].
