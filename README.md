@@ -7,7 +7,7 @@ To address this challenge, we propose ARTEMIS, a generative model integrating a 
 ![alt text](https://github.com/sayali7/ARTEMIS/blob/main/paper_figures/Figure1.png?raw=true)
 
 ## Requirements
-Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu (20.04,22.04), both on machines with CPU and with GPU NVIDIA RTX A6000. Since the code is implemented on JAX, we recommend users to train on GPU to take advantage of the jax jit-compilation. The average runtime on the gpu is ~15 minutes, whie that on the cpu is ~30 minutes. Main packages required for training are:
+Our code has been tested in Python 3.8 & 3.10 on Linux Ubuntu (20.04,22.04), both on machines with CPU and with GPU NVIDIA RTX A6000. ARTEMIS is implemented in JAX and hence we recommend users to train on GPU to take advantage of the jax jit-compilation. The average runtime on the GPU is ~15 minutes, while that on the CPU is ~30 minutes. The main packages required for training are:
 - JAX
 - Flax
 - Haiku
