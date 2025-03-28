@@ -30,20 +30,20 @@ def get_model_latents(train_data, val_data,ts,tr_model):
     train_pred = ts.vae_model.apply(tr_model.vae_params, next(hk.PRNGSequence(1)), train_time.values, train_data.values)
     train_latent = pd.DataFrame(train_pred.latent, index=train_data.index.to_list())
     train_latent["time"] = train_time.values
-    train_latent = train_latent.sort_values(by=["time"])
+    #train_latent = train_latent.sort_values(by=["time"])
 
     train_recon = pd.DataFrame(train_pred.logits, index=train_data.index.to_list())
     train_recon["time"] = train_time.values
-    train_recon = train_recon.sort_values(by=["time"])
+    #train_recon = train_recon.sort_values(by=["time"])
 
     val_pred = ts.vae_model.apply(tr_model.vae_params, next(hk.PRNGSequence(1)), val_time.values, val_data.values)
     val_latent = pd.DataFrame(val_pred.latent, index=val_data.index.to_list())
     val_latent["time"] = val_time.values
-    val_latent = val_latent.sort_values(by=["time"])
+    #val_latent = val_latent.sort_values(by=["time"])
 
     val_recon = pd.DataFrame(val_pred.logits, index=val_data.index.to_list())
     val_recon["time"] = val_time.values
-    val_recon = val_recon.sort_values(by=["time"])
+    #val_recon = val_recon.sort_values(by=["time"])
 
     return train_recon, train_latent, val_recon, val_latent
 
@@ -140,6 +140,8 @@ def get_predictions(train_data, val_data, train_tps, val_tps,
                     train_dataset,train_latent,tps,tr_model,ts,
                     vae_input_dim, vae_hidden_dim,vae_latent_dim, 
                     num_simulations=5, t_0_orig=0):
+
+    tps = sorted(list(set(tps)))
     predictions = {}
     predictions_all={}
 
