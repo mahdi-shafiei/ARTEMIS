@@ -11,13 +11,15 @@ from sklearn.model_selection import train_test_split
 
 from utils import *
 
-class Dataset():
+class Input_Dataset():
 
     def __init__(self, x, meta, meta_celltype_column=None, splitting_births_frac=0.2, eps=1e-7,steps_num=100, 
-                 val_split=False, death_importance_rate=100, f_val=None):
+                 val_split=False, death_importance_rate=100, f_val=None, std_threshold=2., cutoff=0.2, mb_prior=5.0):
         
         self.val_split = val_split
         self.death_importance_rate = death_importance_rate
+       
+        self.mb_prior = mb_prior
 
         if val_split:
             x,meta,x_val, meta_val = self.split_train_test(x,meta)
@@ -41,7 +43,7 @@ class Dataset():
         self.splitting_births_frac = splitting_births_frac
         self.f_val=f_val
 
-        self.time_x_groundtruth = {int(self.cells_time(k)*self.steps_num): jnp.array(x[x["time"]==k].to_numpy().astype(float)[:,:-1]) for k in self.times}
+        #self.time_x_groundtruth = {int(self.cells_time(k)*self.steps_num): jnp.array(x[x["time"]==k].to_numpy().astype(float)[:,:-1]) for k in self.times}
         self.time_x = {int(self.cells_time(k)*self.steps_num): jnp.array(x[x["time"]==k].to_numpy().astype(float)[:,:-1]) for k in self.times}
         self.mean = tree_map(lambda x_temp: jnp.array(x_temp.mean(axis=0, keepdims=True)), self.time_x)
         self.std = tree_map(lambda x_temp: jnp.array(x_temp.std(axis=0, keepdims=True)), self.time_x)
@@ -50,6 +52,9 @@ class Dataset():
             self.time_x_val = {int(self.cells_time(k)*self.steps_num): jnp.array(x_val[x_val["time"]==k].to_numpy().astype(float)[:,:-1]) for k in self.times}
     
         self.times = list(map(lambda t: int(self.cells_time(t)*self.steps_num), self.times))
+
+        self.std_threshold = std_threshold
+        self.cutoff = cutoff
     
     def update_data_info(self,x, x_val):
 
@@ -157,18 +162,18 @@ class Dataset():
         
         density_kernel = gaussian_kernel()
 
-        def _calc_threshold_violation_score(t, t_min, t_max, x, std_threshold=2., cutoff=.2):
+        def _calc_threshold_violation_score(t, t_min, t_max, x):
             effecttive_t = (t-(t_min/self.steps_num)) / ((t_max/self.steps_num) - (t_min/self.steps_num))
             effective_mean = effecttive_t * self.mean[t_max] + (1-effecttive_t) * self.mean[t_min]
             effective_std = effecttive_t * self.std[t_max] + (1-effecttive_t) * self.std[t_min]
-            threshold_violation_score = jnp.mean(jnp.abs(x-effective_mean) > std_threshold * effective_std, axis=1)
-            return (threshold_violation_score < cutoff) * 0 + (threshold_violation_score >= cutoff)*threshold_violation_score
+            threshold_violation_score = jnp.mean(jnp.abs(x-effective_mean) > self.std_threshold * effective_std, axis=1)
+            return (threshold_violation_score < self.cutoff) * 0 + (threshold_violation_score >= self.cutoff)*threshold_violation_score
      
         # define prior kill-rate factor
         delta_t = jnp.array(self.times[1:]) - jnp.array(self.times[:-1])
         self.death_importance = (self.death_importance_rate)*(-1)*(1/delta_t)*jnp.log(jnp.array(self.mass[1:])/jnp.array(self.mass[:-1]))
         
-        def _killer(t,x,direction=FORWARD, mb_prior=5.0, db_prior=10.0):
+        def _killer(t, x, db_prior=10):
 
             mean_based_transitions = 0.0
             density_based_transitions = 0.0
@@ -180,7 +185,7 @@ class Dataset():
                 density_based_transitions += ((t_min/self.steps_num) <= t)*(t< (t_max/self.steps_num)) * jnp.square(kde(density_kernel,self.mean[t_max],x)) * -1
                 
             density_based_transitions = density_based_transitions.reshape(density_based_transitions.shape[0],)
-            kill_rate = (mb_prior)*mean_based_transitions +(db_prior)*density_based_transitions
+            kill_rate = self.mb_prior*mean_based_transitions +density_based_transitions
 
             return kill_rate
          

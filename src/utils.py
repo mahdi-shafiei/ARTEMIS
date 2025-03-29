@@ -137,11 +137,11 @@ def constant_diffusivity(t, g_max):
 
 def inverse_triangular_diffusivity(t, g_max):
     g_min = .01
-    return g_min - 2 * np.abs(t - .5) * (g_min-g_max)
+    return g_min - 2 * jnp.abs(t - .5) * (g_min-g_max)
 
 def decreasing_diffusivity(t, g_max):
     g_min = .1
-    return g_max - np.square(t) * (g_max-g_min)
+    return g_max - jnp.square(t) * (g_max-g_min)
 
 # SDE
 

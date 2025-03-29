@@ -11,7 +11,7 @@ from datasets import *
 
 class SDE:
 
-    def __init__(self,dataset: Dataset, steps_num=100, batch_size=512):
+    def __init__(self,dataset: Input_Dataset, steps_num=100, batch_size=512):
 
         self.dataset = dataset
         self.f = dataset.f
@@ -204,7 +204,7 @@ class SDE:
         key, key_init_status = random.split(key)
 
         statuses = jnp.zeros(traj.shape[:-1]).astype(bool)  # shape (k+1,n)
-        birth_statuses = jnp.zeros(traj.shape[:-1]).astype(bool)
+        birth_statuses = jnp.zeros(traj.shape[:-1]).astype(int)
 
         if test and max_size is not None:
             statuses = statuses.at[-1,:len(x_1)].set(jnp.bool((1)))
@@ -265,6 +265,7 @@ class SDE:
                 ###############################
 
                 part_statuses = part_statuses.at[i].set(curr_status)
+
                 part_birth_statuses = part_birth_statuses.at[i].set(birth_status)
 
                 born_now = jnp.logical_and(jnp.logical_not(part_statuses.at[i+1].get()), part_statuses.at[i].get())

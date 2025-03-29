@@ -44,7 +44,44 @@ def compute_wasserstein_2(preds, true):
     ot = compute_ot(preds, true)
     return jnp.sqrt(ot.transport_cost_at_geom(make_geometry(preds, true))).item()
 
+
+########## run evaluation on multiple GPUs ############
+
+def compute_wasserstein_2_single(preds, true):
+    ot_result = compute_ot(preds, true)
+    geom = make_geometry(preds, true)
+    cost = ot_result.transport_cost_at_geom(geom)
+    return jnp.sqrt(cost)
+
+
+p_compute_w2 = jax.pmap(compute_wasserstein_2_single)
+
+def compute_wasserstein_2_multi(preds, true):
+
+    num_devices = jax.local_device_count()
+
+    if preds.shape[0] != true.shape[0]:
+        n = preds.shape[0]
+        n_trim = n - (n % num_devices)  # largest multiple of num_devices
+        preds = preds[:n_trim]
+        true = true[:n_trim]
+
+    num_devices = jax.local_device_count()
+    preds_shards = jnp.array_split(preds, num_devices)
+    true_shards = jnp.array_split(true, num_devices)
+
+    preds_sharded = jax.device_put_sharded(preds_shards, jax.local_devices())
+    true_sharded = jax.device_put_sharded(true_shards, jax.local_devices())
+
+    w2_shards= p_compute_w2(preds_sharded, true_sharded)
+
+    return jnp.mean(w2_shards).item()
+
+#########################################################
+
+
 def compute_metrics_subset(target, predicted):
     return {
-        'w2': compute_wasserstein_2(target, predicted),
+        'w2': compute_wasserstein_2(target, predicted), 
+        # 'w2_multi': compute_wasserstein_2_multi(target, predicted)
             }

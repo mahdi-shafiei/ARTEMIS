@@ -1,20 +1,18 @@
 # code adapted from https://github.com/matteopariset/unbalanced_sb/tree/main/udsb_f
 
 import jax
-from jax import grad, value_and_grad, jit, tree_map # type: ignore
+from jax import value_and_grad, jit, tree_map # type: ignore
 import jax.random as random
 import jax.numpy as jnp
 from jax.lax import fori_loop
 
 import haiku as hk
-import matplotlib.pyplot as plt
 import optax
 from tqdm.auto import tqdm
 from functools import partial
-from typing import NamedTuple, List, Tuple, Callable
 
 import copy
-import wandb
+#import wandb
 
 from utils import *
 from datasets import *
@@ -23,7 +21,7 @@ from loss import *
 from training_setup import *
 
 class Trainer:
-    def __init__(self, dataset: Dataset, ts: Training_Setup, key, lr = 1e-3, 
+    def __init__(self, dataset: Input_Dataset, ts: Training_Setup, key, lr = 1e-3, 
                  ferryman_lr=1e-3, vae_lr=1e-3, beta1=1, beta2 = 1, ferryman_coeff=1.0) -> None:
 
         self.training_setup = ts
@@ -492,7 +490,8 @@ class Trainer:
                 # kl_anneal = e/self.training_setup.vae_epochs
                 # kl_anneal=0.0
                 
-                kl_anneal=1.0
+                # kl_anneal=1.0
+                kl_anneal = 0.001
                 _, mse, kl = self.vae_loss(self.vae_params, next(rng_seq), batch, batch_time, True, kl_anneal)
                 
                 loss, self.vae_params, self.vae_opt_state = self.vae_update_fn(self.vae_params, next(rng_seq), self.vae_opt_state, batch, batch_time, kl_anneal)
@@ -589,7 +588,8 @@ class Trainer:
                 "vae_dec_hidden_dim": self.training_setup.vae_dec_hidden_dim,
                 "vae_t_dim": self.training_setup.vae_t_dim, "vae_latent_dim": self.training_setup.vae_latent_dim,
                 "vae_batch_size": self.training_setup.vae_batch_size, "ferryman_hidden_dim": self.training_setup.ferryman_hidden_dim,
-                "death_importance_rate": self.dataset.death_importance_rate, "f":self.dataset.f_val}
+                "death_importance_rate": self.dataset.death_importance_rate, "f":self.dataset.f_val,
+                "mb_prior": self.dataset.mb_prior, "std": self.dataset.std_threshold, "cutoff": self.dataset.cutoff}
         
         return config
 

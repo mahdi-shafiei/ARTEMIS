@@ -1,15 +1,11 @@
-__author__ = "Matteo Pariset"
+# code adapted from https://github.com/matteopariset/unbalanced_sb/tree/main/udsb_f
 
 import jax
-from jax import grad, vmap # type: ignore
-import jax.random as random
-import jax.numpy as jnp
-from jax.scipy.special import logsumexp
 import haiku as hk
-import optax
 from functools import partial
-from typing import NamedTuple, List, Tuple, Callable
-from typing import List
+
+import pickle
+import datetime
 
 from utils import *
 from datasets import *
@@ -18,12 +14,12 @@ from sde import *
 
 
 class Training_Setup:
-    def __init__(self, dataset: Dataset, dataset_name="Data_1", steps_num=100, epochs = 5, vae_epochs=100, key=None, params=None, objective="divergence",
+    def __init__(self, dataset: Input_Dataset, dataset_name="Data_1", steps_num=100, epochs = 5, vae_epochs=100, key=None, params=None, objective="divergence",
                  batch_size=512, hidden_dim=[64], dec_hidden_size=[64], ferryman_hidden_dim=[64], ferryman_activate_final=True,
                  ipf_mask_dead=False, reality_coefficient=0.1, paths_reuse=5, num_sde=10, resnet=False,
                  feature_spatial_loss=False, t_dim=16, vae_input_dim=1000, vae_enc_hidden_dim=[512,512], 
                  vae_dec_hidden_dim =[512,512], vae_t_dim=8, calc_latent_loss=True, calc_recon_loss=True,
-                 vae_latent_dim=64, vae_batch_size=64, killer_func=Dataset.killing_function): 
+                 vae_latent_dim=64, vae_batch_size=64, killer_func=Input_Dataset.killing_function): 
 
         self.dataset_name=dataset_name
         self.dataset=dataset
